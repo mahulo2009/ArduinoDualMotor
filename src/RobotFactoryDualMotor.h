@@ -3,7 +3,7 @@
 
 #include "RobotFactory.h"
 #include "Wheel.h"
-#include "ArduinoDutyDualMotorHardwareController.h"
+#include "L298NHardwareController.h"
 #include "RosConfigArduinoDutyDualMotor.h"
 #include "DifferentialWheeledRobot.h"
 
