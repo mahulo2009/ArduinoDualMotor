@@ -1,8 +1,20 @@
 #include "L298NHardwareController.h"
 
-L298NHardwareController::L298NHardwareController(double gain,int min_duty, int max_duty):
-    gain_(gain), min_duty_(min_duty), max_duty_(max_duty),encoder_(0),previous_ticks_(0)
+L298NHardwareController::L298NHardwareController(double gain,
+                                                    int min_duty, 
+                                                    int max_duty, 
+                                                    int ticks_per_revolution,
+                                                    double wheel_radious):
+    gain_(gain), 
+    min_duty_(min_duty), 
+    max_duty_(max_duty),
+    encoder_(0),
+    previous_ticks_(0),
+    ticks_per_revolution_(ticks_per_revolution),
+    wheel_radious_(wheel_radious)
 {
+
+    factor_ = ( 2 * PI *  wheel_radious_  ) / (60 * ticks_per_revolution_) ; 
 }
 
 void L298NHardwareController::attachPower(int pin)
@@ -57,7 +69,6 @@ void L298NHardwareController::velocity(double velocity)
     Serial.print("\n");
     #endif
 
-
     if (velocity < 0) {
 		setupDirection(BACKWARD);	
 	} else {
@@ -86,7 +97,6 @@ void L298NHardwareController::power(double duty)
     analogWrite(pin_power_,this->duty_); 
 }
 
-
 double  L298NHardwareController::getVelocity(double dt) 
 {
     return current_velocity_;
@@ -94,12 +104,11 @@ double  L298NHardwareController::getVelocity(double dt)
 
 void L298NHardwareController::update(double dt) 
 {
-
     if (encoder_ != 0) 
     {
         long ticks_ = encoder_->read();
-        current_velocity_ = ( ( (ticks_ - previous_ticks_) * 2 * PI ) / 1200 ) / dt; //TODO
 
+        current_velocity_ = factor_ * (ticks_ - previous_ticks_) /  dt;
         previous_ticks_ = ticks_;
 
         #ifdef L298N_HARDWARE_CONTROLLER_DEBUG
@@ -111,5 +120,4 @@ void L298NHardwareController::update(double dt)
         Serial.print("\n");
         #endif
     }
-
 }

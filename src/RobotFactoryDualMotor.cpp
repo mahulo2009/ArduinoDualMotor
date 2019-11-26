@@ -16,15 +16,19 @@ RobotBase * RobotFactoryDualMotor::buildRobot()
 WheelBase * RobotFactoryDualMotor::buildWheel(int index)
 {    
     //Controller
+
+    /*
     L298NHardwareController * controller = 
             new L298NHardwareController(robot_confing->max_speed,robot_confing->power_min,robot_confing->power_max);
+            
 
     controller->attachPower(robot_confing->wheel_config[index].pin_power);
     controller->attachDirection(robot_confing->wheel_config[index].pin_direction_1,robot_confing->wheel_config[index].pin_direction_2);
+*/ //TODO
 
     //Wheel
     WheelBase * wheel = new Wheel();
-    wheel->attachController(controller);
+    //wheel->attachController(controller);
 
     return wheel;
 }
