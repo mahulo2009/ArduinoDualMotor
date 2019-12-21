@@ -13,8 +13,7 @@ L298NHardwareController::L298NHardwareController(double gain,
     ticks_per_revolution_(ticks_per_revolution),
     wheel_radious_(wheel_radious)
 {
-
-    factor_ = ( 2 * PI *  wheel_radious_  ) / (60 * ticks_per_revolution_) ; 
+    factor_ = ( 2 * PI ) / ( ticks_per_revolution_) ; 
 }
 
 void L298NHardwareController::attachPower(int pin)
@@ -63,7 +62,7 @@ void L298NHardwareController::velocity(double velocity)
 {
 
     #ifdef L298N_HARDWARE_CONTROLLER_DEBUG
-    Serial.print("ArduinoDutyDualMotorHardwareController::velocity:");
+    Serial.print("L298NHardwareController::velocity:");
     Serial.print("\t");
     Serial.print(velocity);
     Serial.print("\n");
@@ -88,7 +87,7 @@ void L298NHardwareController::power(double duty)
     this->duty_ = ceil(duty); 
 
     #ifdef L298N_HARDWARE_CONTROLLER_DEBUG
-    Serial.print("ArduinoDutyDualMotorHardwareController::power:");
+    Serial.print("L298NHardwareController::power:");
     Serial.print(" duty\t");
     Serial.print(this->duty_);
     Serial.print("\n");
@@ -106,18 +105,26 @@ void L298NHardwareController::update(double dt)
 {
     if (encoder_ != 0) 
     {
-        long ticks_ = encoder_->read();
 
-        current_velocity_ = factor_ * (ticks_ - previous_ticks_) /  dt;
+        double t = millis() ;
+        
+
+        long ticks_ = encoder_->read();
+        long diff = ticks_ - previous_ticks_;
+        current_velocity_ = factor_ * (diff) /  ((t-previous_command_time_)/1000.0);
         previous_ticks_ = ticks_;
 
         #ifdef L298N_HARDWARE_CONTROLLER_DEBUG
-        Serial.print("ArduinoDutyDualMotorHardwareController::update:");
+        Serial.print("L298NHardwareController::update:");
+        Serial.print(" time\t");
+        Serial.print(t-previous_command_time_);
         Serial.print(" ticks\t");
-        Serial.print(ticks_);
+        Serial.print(diff);
         Serial.print(" velocity\t");
-        Serial.print(current_velocity_);
+        Serial.print(current_velocity_*1000);
         Serial.print("\n");
         #endif
+
+        previous_command_time_ = t;
     }
 }

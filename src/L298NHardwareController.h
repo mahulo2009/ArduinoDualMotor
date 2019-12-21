@@ -48,6 +48,8 @@ class L298NHardwareController : public HardwareController {
         int         ticks_per_revolution_;
         double      wheel_radious_;
         double      factor_;
+
+        double previous_command_time_;
 };
 
 #endif
