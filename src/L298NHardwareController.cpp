@@ -1,11 +1,13 @@
 #include "L298NHardwareController.h"
 
 L298NHardwareController::L298NHardwareController(double gain,
+                                                    double offset,
                                                     int min_duty, 
                                                     int max_duty, 
                                                     int ticks_per_revolution,
                                                     double wheel_radious):
     gain_(gain), 
+    offset_(offset),
     min_duty_(min_duty), 
     max_duty_(max_duty),
     encoder_(0),
@@ -21,6 +23,8 @@ void L298NHardwareController::attachPower(int pin)
     this->pin_power_ = pin;
     
     pinMode(pin_power_, OUTPUT);
+    analogWriteFrequency(pin_power_,93750);
+
     analogWrite(pin_power_,0); 
 }
 
@@ -73,7 +77,7 @@ void L298NHardwareController::velocity(double velocity)
 	} else {
   		setupDirection(FORWARD);
 	}
-  	float duty = gain_ * abs(velocity);
+  	float duty = gain_ * abs(velocity) + offset_;
     power(duty);
 }
 

@@ -12,6 +12,7 @@ class L298NHardwareController : public HardwareController {
     public:
 
         L298NHardwareController(double gain,
+                                double offset,
                                 int min_duty, 
                                 int max_duty, 
                                 int ticks_per_revolution,
@@ -34,7 +35,8 @@ class L298NHardwareController : public HardwareController {
 
     private:
 
-        double      gain_;			    
+        double      gain_;			
+        double      offset_;			
         int         min_duty_;				    //minimum duty
         int         max_duty_;				    //maximun duty
         int         pin_power_;				    //pin number for the motor power, pwm.
