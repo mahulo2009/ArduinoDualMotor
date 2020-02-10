@@ -72,7 +72,7 @@ public:
     /**
      * Inline function with the last duty applied.
     */
-    int getDuty()
+    virtual int duty()
     {
         return duty_;
     }
