@@ -3,45 +3,30 @@
 
 #include <RosConfigBase.h>
 
-
-struct wheel_config_dual_t {
-    int pin_power;    
+struct wheel_config_dual_t
+{
+    int pin_power;
     int pin_direction_1;
     int pin_direction_2;
 };
 
-class RosConfigArduinoDutyDualMotor : public RosConfigBase {
+class RosConfigArduinoDutyDualMotor : public RosConfigBase
+{
 
-  	public:
+public:
+    RosConfigArduinoDutyDualMotor();
 
-            RosConfigArduinoDutyDualMotor();
+    virtual void read(ros::NodeHandle &nh);
 
-            virtual void read(ros::NodeHandle &nh);
+    float max_speed;
+    int power_min; //
+    int power_max;
+    float robot_wheel_separation;
+    float robot_wheel_radious;
 
-            float max_speed;
-            int power_min;  //
-            int power_max;
-            float robot_wheel_separation;
-            float robot_wheel_radious; 
+    wheel_config_dual_t wheel_config[2];
 
-            wheel_config_dual_t wheel_config[2];
-            
-	protected:
-
-  	private:
-
-          
+protected:
+private:
 };
 #endif
-
-
-      
-      
-      
-      
-      
-
-
-
-
-

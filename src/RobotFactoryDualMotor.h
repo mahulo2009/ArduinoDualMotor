@@ -7,20 +7,17 @@
 #include "RosConfigArduinoDutyDualMotor.h"
 #include "DifferentialWheeledRobot.h"
 
+class RobotFactoryDualMotor : public RobotFactory
+{
 
-class RobotFactoryDualMotor : public RobotFactory {
+public:
+      RobotFactoryDualMotor(RosConfigArduinoDutyDualMotor *robot_confing);
 
-  	public:
+      virtual RobotBase *buildRobot();
 
-        RobotFactoryDualMotor(RosConfigArduinoDutyDualMotor * robot_confing);
+      virtual WheelBase *buildWheel(int index);
 
-        virtual RobotBase * buildRobot();
-
-        virtual WheelBase * buildWheel(int index);
-
-	protected:
-
-            RosConfigArduinoDutyDualMotor * robot_confing;
-  	
+protected:
+      RosConfigArduinoDutyDualMotor *robot_confing;
 };
 #endif

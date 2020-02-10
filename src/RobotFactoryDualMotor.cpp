@@ -1,20 +1,20 @@
 #include "RobotFactoryDualMotor.h"
 
-RobotFactoryDualMotor::RobotFactoryDualMotor(RosConfigArduinoDutyDualMotor * robot_confing) 
-{  
+RobotFactoryDualMotor::RobotFactoryDualMotor(RosConfigArduinoDutyDualMotor *robot_confing)
+{
     this->robot_confing = robot_confing;
 }
 
-RobotBase * RobotFactoryDualMotor::buildRobot()
+RobotBase *RobotFactoryDualMotor::buildRobot()
 {
     //Robot
-    RobotBase * robot = 
-        new DifferentialWheeledRobot(robot_confing->robot_wheel_separation,robot_confing->robot_wheel_radious);
+    RobotBase *robot =
+        new DifferentialWheeledRobot(robot_confing->robot_wheel_separation, robot_confing->robot_wheel_radious);
     return robot;
 }
 
-WheelBase * RobotFactoryDualMotor::buildWheel(int index)
-{    
+WheelBase *RobotFactoryDualMotor::buildWheel(int index)
+{
     //Controller
 
     /*
@@ -24,10 +24,11 @@ WheelBase * RobotFactoryDualMotor::buildWheel(int index)
 
     controller->attachPower(robot_confing->wheel_config[index].pin_power);
     controller->attachDirection(robot_confing->wheel_config[index].pin_direction_1,robot_confing->wheel_config[index].pin_direction_2);
-*/ //TODO
+*/
+    //TODO
 
     //Wheel
-    WheelBase * wheel = new Wheel();
+    WheelBase *wheel = new Wheel();
     //wheel->attachController(controller);
 
     return wheel;
